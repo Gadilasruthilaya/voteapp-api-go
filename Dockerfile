@@ -1,7 +1,7 @@
 FROM golang:1.19 AS builder
 
 WORKDIR /app
-COPY go.mod go.som ./
+COPY go.mod go.sum ./
 RUN go mod tidy
 COPY . .
 RUN go mod build -v -o /app/bin/api ./...
