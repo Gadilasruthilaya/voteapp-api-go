@@ -1,7 +1,13 @@
+FROM golang:1.19 AS builder
+
+WORKDIR /app
+COPY go.mod go.som ./
+RUN go mod tidy
+COPY . .
+RUN go mod build -v -o /app/bin/api ./...
+
 FROM alpine:latest
-
-COPY api .
-
+WORKDIR /root/
+COPY --from=builder /app/bin/api .
 EXPOSE 8080
-
 CMD ["./api"]
